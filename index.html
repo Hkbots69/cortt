@@ -1,0 +1,42 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+</head>
+<body>
+    <h1>Video Downloader</h1>
+    <form id="downloadForm">
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url" required>
+        <button type="submit">Download Video</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const url = document.getElementById('url').value;
+
+            try {
+                const response = await fetch('/.netlify/functions/downloadVideo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+
+                const result = await response.json();
+                document.getElementById('result').textContent = result.body;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = 'Failed to download the video.';
+            }
+        });
+    </script>
+</body>
+</html>
