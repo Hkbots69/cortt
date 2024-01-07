@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
       return { statusCode: 500, body: 'Failed to download the video.' };
     }
   } catch (error) {
-    console.error('Error:', error);
-    return { statusCode: 500, body: 'Internal Server Error' };
+    console.error('Error:', error); // Log the error details
+    return { statusCode: 500, body: `Internal Server Error: ${error.message}` };
   }
 };
